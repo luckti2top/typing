@@ -45,7 +45,7 @@ function isMultiline(txt) {
     // let width = typing_p.offsetWidth;
     let height = typing_p.offsetHeight;
     line_height = parseFloat(window.getComputedStyle(type_root, null).getPropertyValue('line-height'));
-    let is_multiline = (height > line_height * 2)
+    let is_multiline = (height > line_height * 1.5)
     type_root.removeChild(typing_p);
     return is_multiline;
 }
