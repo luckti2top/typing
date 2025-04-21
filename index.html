@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>typing or reading</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/favicon.ico">
+    <style>
+        #type {
+            line-height: 1.75em;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="type"></div>
+
+    <script src="assets/js/typing.js"></script>
+    <script>
+        var speed = 80; //in milliseconds, 80ms per character
+        var loop_wait = 1; //in second, 1s pause after typing;
+        // search example: <you_url>?txt=Hello,%20world!%20I%27m%20just%20typing%20here%20to%20see%20how%20it%20works.&sp=100&lw=3
+        const urlParams = new URLSearchParams(window.location.search);
+        let txt = urlParams.get('txt');
+        if (txt == undefined || txt == null || txt == "") {
+            txt = "Hello, world! I'm just typing here to see how it works.";
+        }
+        if (urlParams.get('sp') != undefined && urlParams.get('sp') != null && urlParams.get('sp') != "") {
+            try {
+                speed = parseInt(urlParams.get('sp'));
+                speed = isNaN(speed) ? 80 : speed;
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        if (urlParams.get('lw') != undefined && urlParams.get('lw') != null && urlParams.get('lw') != "") {
+            try {
+                loop_wait = parseInt(urlParams.get('lw'));
+                loop_wait = isNaN(loop_wait)? 1 : loop_wait;
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        var is_waiting = false;
+        var time_interval = typeLoop();
+        function typeLoop() {
+            if (isTyping) {
+                setTimeout(typeLoop, 10);
+                return;
+            }
+            if (is_waiting) {
+                setTimeout(function () { is_waiting = false; time_interval = typeLoop(); }, loop_wait * 1000);
+                return;
+            }
+            document.getElementById("type").innerHTML = "";
+            type(txt, 0, speed);
+            is_waiting = true;
+            clearInterval(time_interval);
+            return setInterval(typeLoop, speed * txt.length);
+        }
+    </script>
+
+</body>
+
+</html>
