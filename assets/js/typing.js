@@ -10,8 +10,8 @@ function type(line_text, char_index, type_speed) {
     // Check if the current character index is less than the length of the text string. 
     // Use the optional chaining operator to prevent errors when line_text is null or undefined.
     if (char_index < line_text?.length) {
-        // Get the element with the id "type" on the page and append the current character to its HTML content.
-        document.getElementById("type").innerHTML += line_text.charAt(char_index);
+        // Get the element with the id "typing" on the page and append the current character to its HTML content.
+        document.getElementById("typing").innerHTML += line_text.charAt(char_index);
         char_index++;
         // Check if all characters have been displayed.
         if (char_index === line_text.length) {

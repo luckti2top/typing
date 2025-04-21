@@ -16,7 +16,9 @@
 
 <body>
 
-    <div id="type"></div>
+    <div id="type">
+        <p id="typing"></p>
+    </div>
 
     <script src="assets/js/typing.js"></script>
     <script>
@@ -40,7 +42,7 @@
         if (urlParams.get('lw') != undefined && urlParams.get('lw') != null && urlParams.get('lw') != "") {
             try {
                 loop_wait = parseInt(urlParams.get('lw'));
-                loop_wait = isNaN(loop_wait)? 1 : loop_wait;
+                loop_wait = isNaN(loop_wait) ? 1 : loop_wait;
             }
             catch (err) {
                 console.log(err);
@@ -57,7 +59,7 @@
                 setTimeout(function () { is_waiting = false; time_interval = typeLoop(); }, loop_wait * 1000);
                 return;
             }
-            document.getElementById("type").innerHTML = "";
+            document.getElementById("typing").innerHTML = "";
             type(txt, 0, speed);
             is_waiting = true;
             clearInterval(time_interval);
