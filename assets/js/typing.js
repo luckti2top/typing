@@ -2,6 +2,7 @@
 var isTyping = false;
 // Get the root element where the typed text will be appended
 let type_root = document.getElementById("type");
+let scroll_type_interval = null;
 
 function getLongestLineText(txt_list) {
     let max_line_text = "";
@@ -57,7 +58,7 @@ function switchCenterTheme(txt_list) {
         type_root.style.alignItems = "start";
         type_root.style.display = "block";
         type_root.style.flexDirection = "column";
-        setInterval(function () { type_root.scrollTop = type_root.scrollHeight; }, 500)
+        scroll_type_interval = setInterval(function () { type_root.scrollTop = type_root.scrollHeight; }, 500)
     }
     else {
         type_root.style.textAlign = "center";
@@ -104,7 +105,18 @@ function type(line_text, char_index, type_speed) {
  */
 function typingMarkdownTexts(txt_list, txt_index) {
     // Check if the current index is out of the list bounds, if so, exit the function
-    if (txt_index >= txt_list.length) return;
+    if (txt_index >= txt_list.length) {
+        // Check if the typing effect is currently in progress, if so, retry after 10ms
+        if (scroll_type_interval != null) {
+            // waiting until typing finished...
+            if (isTyping) {
+                setTimeout(typingMarkdownTexts, 10, txt_list, txt_index);
+                return;
+            }
+            clearInterval(scroll_type_interval)
+        }
+        return;
+    }
     // Get the current text and trim whitespace, use optional chaining to prevent errors
     let txt = txt_list[txt_index]?.trim();
     // Check if the current text is empty or undefined, if so, skip to the next text
