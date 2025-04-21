@@ -27,3 +27,36 @@ function type(line_text, char_index, type_speed) {
     }
 }
 
+function typingMarkdownTexts(txt_list, txt_index) {
+    if (txt_index >= txt_list.length) return;
+    txt = txt_list[txt_index]?.trim();
+    if (txt == undefined || txt == null || txt == "") {
+        typingMarkdownTexts(txt_list, txt_index + 1);
+        return;
+    }
+    if (isTyping) {
+        setTimeout(typingMarkdownTexts, 10, txt_list, txt_index);
+        return;
+    }
+    type_root = document.getElementById("type");
+    typing_p = document.getElementById("typing");
+    if (typing_p) typing_p.setAttribute("id", `typed-${txt_index - 1}`);
+    if (txt.startsWith("# ")) {
+        typing_p = document.createElement("h2");
+        txt = txt.substring(2);
+    }else if (txt.startsWith("## ")) {
+        typing_p = document.createElement("h3"); 
+        txt = txt.substring(3);
+    }else if (txt.startsWith("### ")) {
+        typing_p = document.createElement("h4"); 
+        txt = txt.substring(4);
+    }else{
+        typing_p = document.createElement("p");
+    }
+    type_root.appendChild(typing_p);
+    typing_p.setAttribute("id", "typing");
+    type(txt, 0, speed);
+    setTimeout(typingMarkdownTexts, speed * txt.length, txt_list, txt_index + 1);
+    return;
+}
+

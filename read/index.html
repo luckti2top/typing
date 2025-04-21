@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>typing or reading</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="icon" href="/assets/favicon.ico">
+    <style>
+        #type {
+            line-height: 1.2rem;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="type"></div>
+
+    <script src="/assets/js/typing.js"></script>
+    <script>
+        var speed = 200; //in milliseconds, 80ms per character
+        var loop_wait = 1; //in second, 1s pause after typing;
+        // search example: <you_url>?txt=Hello,%20world!%20I%27m%20just%20typing%20here%20to%20see%20how%20it%20works.&sp=100&lw=3
+        const urlParams = new URLSearchParams(window.location.search);
+        let texts = urlParams.get('txt');
+        if (texts == undefined || texts == null || texts == "") {
+            texts = "# 《诗经・郑风・子衿》\n青青子衿，悠悠我心。纵我不往，子宁不嗣音？\n青青子佩，悠悠我思。纵我不往，子宁不来？\n挑兮达兮，在城阙兮。一日不见，如三月兮。";
+        }
+        let markdown_file = urlParams.get('md');
+        if (urlParams.get('sp') != undefined && urlParams.get('sp') != null && urlParams.get('sp') != "") {
+            try {
+                speed = parseInt(urlParams.get('sp'));
+                speed = isNaN(speed) ? 80 : speed;
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        if (urlParams.get('lw') != undefined && urlParams.get('lw') != null && urlParams.get('lw') != "") {
+            try {
+                loop_wait = parseInt(urlParams.get('lw'));
+                loop_wait = isNaN(loop_wait) ? 1 : loop_wait;
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        if (markdown_file != undefined && markdown_file != null && markdown_file != "") {
+            fetch(markdown_file)
+                .then(response => response.text())
+                .then(data => {
+                    // 解析Markdown文本
+                    const markdown = data;
+                    const txt_list = markdown.split("\n");
+                    typingMarkdownTexts(txt_list, 0);
+                })
+                .catch(error => console.error(error));
+        } else {
+            if (texts != undefined || texts != null || texts != "") {
+                txt_list = texts.split("\n");
+                typingMarkdownTexts(txt_list, 0);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
