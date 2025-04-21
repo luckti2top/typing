@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html data-bs-theme="dark">
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>typing or reading</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" href="/assets/favicon.ico">
-    <style>
-        #type {
-            line-height: 1.2rem;
-            font-size: 20px;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 
 <body>
 
-    <div id="type"></div>
+    <article id="type"></article>
 
     <script src="../assets/js/typing.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
     <script>
         var speed = 200; //in milliseconds, 80ms per character
         var loop_wait = 1; //in second, 1s pause after typing;
@@ -54,12 +54,14 @@
                     // 解析Markdown文本
                     const markdown = data;
                     const txt_list = markdown.split("\n");
+                    switchCenterTheme(txt_list);
                     typingMarkdownTexts(txt_list, 0);
                 })
                 .catch(error => console.error(error));
         } else {
             if (texts != undefined || texts != null || texts != "") {
                 txt_list = texts.split("\n");
+                switchCenterTheme(txt_list);
                 typingMarkdownTexts(txt_list, 0);
             }
         }
